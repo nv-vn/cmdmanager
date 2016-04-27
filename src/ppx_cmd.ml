@@ -12,7 +12,7 @@ let _ = default_mapper.structure_item
 let cmd_mapper argv =
   {default_mapper with
    structure_item = fun mapper -> function
-     | {pstr_desc = Pstr_value (rec_flag, values); pstr_loc} ->
+     | {pstr_desc = Pstr_value (_, values); pstr_loc} ->
        let values' =
          values >>= begin function
            | {pvb_attributes} as e when List.exists (fun ({txt}, _) -> txt = "cmd") pvb_attributes -> begin
@@ -28,7 +28,7 @@ let cmd_mapper argv =
              end
            | x -> [x]
          end in
-       {pstr_desc = Pstr_value (rec_flag, values'); pstr_loc}
+       {pstr_desc = Pstr_value (Recursive, values'); pstr_loc}
      | stri -> stri
   }
 
