@@ -1,0 +1,21 @@
+Name: cmdmanager
+Version: 1.0.0
+Synopsis: Port of haze's command manager
+Authors: nv-vn <nv@cock.li>
+License: GPL
+
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+Library "cmdmanager"
+  Path: lib/
+  Modules: Cmd
+  CompiledObject: best
+  BuildDepends:
+
+Executable "ppx_cmd"
+  Path: src/
+  MainIs: ppx_cmd.ml
+  CompiledObject: best
+  BuildDepends: compiler-libs.common, ppx_tools.metaquot
