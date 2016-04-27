@@ -31,5 +31,3 @@ let cmd_mapper argv =
        {pstr_desc = Pstr_value (Recursive, values'); pstr_loc}
      | stri -> stri
   }
-
-let _ = register "ppx_cmd" cmd_mapper

@@ -10,12 +10,23 @@ Plugins: META (0.4), DevFiles (0.4)
 
 Library "cmdmanager"
   Path: lib/
-  Modules: Cmd
+  Modules: Cmd, Cmdtypes
+  InternalModules: Lexer, Parser
   CompiledObject: best
-  BuildDepends:
+  BuildTools: ocamllex, ocamlyacc
 
-Executable "ppx_cmd"
+Library "ppx_cmdmanager"
   Path: src/
-  MainIs: ppx_cmd.ml
-  CompiledObject: best
+  Modules: Ppx_cmd
   BuildDepends: compiler-libs.common, ppx_tools.metaquot
+  Install: true
+  XMETAEnable: true
+  XMETAExtraLines: ppx = "ppx_cmdmanager"
+
+Executable "ppx_cmdmanager_main"
+  Build: true
+  Install: true
+  Path: src/
+  MainIs: ppx_cmd_main.ml
+  BuildDepends: ppx_cmdmanager
+  CompiledObject: best

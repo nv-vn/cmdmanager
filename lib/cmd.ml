@@ -1,6 +1,17 @@
-type input = [`String of string | `Int of int | `Float of float | `Bool of bool]
-type output = [`Nothing | `String of string]
+open Cmdtypes
 
-let commands : (string, input list -> output) Hashtbl.t = Hashtbl.create 100
+type command = input list -> output
 
-let register name f = Hashtbl.replace commands name f
+let commands : (string, command) Hashtbl.t = Hashtbl.create 100
+
+let register ?(commands=commands) name f = Hashtbl.replace commands name f
+
+let read ?(commands=commands) cmd =
+  let lexbuf = Lexing.from_string cmd in
+  match Parser.main Lexer.token lexbuf with
+  | [] -> `Nothing
+  | cmd'::args -> begin
+      match Hashtbl.find_all commands (string_of_input cmd') with
+      | [] -> `Nothing
+      | f::_ -> f args
+    end
